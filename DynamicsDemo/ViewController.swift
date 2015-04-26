@@ -26,7 +26,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         return;
         
         // keeping this as a reference
-        
+        /*
         square = UIView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
         square.backgroundColor = UIColor.grayColor()
         view.addSubview(square)
@@ -49,6 +49,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         let itemBehaviour = UIDynamicItemBehavior(items: [square])
         itemBehaviour.elasticity = 0.6
         animator.addBehavior(itemBehaviour)
+*/
     }
     
     func randomInt(min: Int, max:Int) -> Int {
@@ -90,16 +91,13 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         itemBehaviour.elasticity = 1.0
         animator.addBehavior(itemBehaviour)
         
-        
+        // makes the squares fall with device orientation data from Accelerometer and Gyro
+        // note that the rotation itself is locked to avoid having to redraw the view
         if (manager.deviceMotionAvailable){
             println("accel available")
             manager.deviceMotionUpdateInterval = 0.02
             manager.startDeviceMotionUpdatesToQueue(NSOperationQueue.mainQueue()) {
                 [weak self] (data: CMDeviceMotion!, error: NSError!) in
-                println("Data: \(data)")
-                println("Error: \(error)")
-                //let rotation = atan2(data.gravity.x, data.gravity.y) - M_PI
-                //self?.gravity.transform = CGAffineTransformMakeRotation(CGFloat(rotation))
                 let vector = CGVector(dx: data.gravity.x, dy: -data.gravity.y)
                 
                 self?.gravity.gravityDirection = vector
